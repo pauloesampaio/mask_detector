@@ -15,7 +15,12 @@ tf.random.set_seed(config["model"]["random_seed"])
 
 model_dataframe = pd.read_csv(config["paths"]["model_dataframe"])
 
-encoded_dataframe = encode_categories(model_dataframe, config)
+if len(config["model"]["target_encoder"]) > 1:
+    encoded_dataframe = encode_categories(model_dataframe, config)
+    classes = None
+else:
+    encoded_dataframe = model_dataframe
+    classes = list(config["model"]["target_encoder"].values())[0]
 
 image_generator = ImageDataGenerator(
     rotation_range=10,
@@ -31,6 +36,7 @@ train_generator = image_generator.flow_from_dataframe(
     x_col=config["model"]["paths"],
     y_col=config["model"]["target"],
     class_mode=config["model"]["class_mode"],
+    classes=classes,
     shuffle=True,
     batch_size=config["model"]["batch_size"],
     subset="training",
@@ -41,6 +47,7 @@ test_generator = image_generator.flow_from_dataframe(
     x_col=config["model"]["paths"],
     y_col=config["model"]["target"],
     class_mode=config["model"]["class_mode"],
+    classes=classes,
     shuffle=False,
     batch_size=config["model"]["batch_size"],
     subset="validation",

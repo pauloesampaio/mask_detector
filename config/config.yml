@@ -7,9 +7,9 @@ model:
   input_shape: [224, 224]
   target_encoder:
     mask: ["without_mask", "with_mask"]
-  target: "mask_encoded"
+  target: "mask"
   paths: "image_path"
-  class_mode: "raw"
+  class_mode: "categorical"
   freeze_convolutional_layers: False
   batch_size: 32
   random_seed: 12345
