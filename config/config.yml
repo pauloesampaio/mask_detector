@@ -1,0 +1,20 @@
+paths:
+  model_dataframe: "./data/full_dataset.csv"
+  model_path: "./model/model.h5"
+  training_history_path: "./model/training_history.csv"
+
+model:
+  input_shape: [224, 224]
+  target_encoder:
+    mask: ["without_mask", "with_mask"]
+  target: "mask_encoded"
+  paths: "image_path"
+  class_mode: "categorical"
+  freeze_convolutional_layers: False
+  batch_size: 32
+  random_seed: 12345
+  learning_rate: 0.01
+  early_stopping_patience: 10
+  lr_reducer_factor: 0.1
+  lr_reducer_patience: 5
+  min_lr: .000001
