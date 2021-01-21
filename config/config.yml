@@ -9,7 +9,7 @@ model:
     mask: ["without_mask", "with_mask"]
   target: "mask_encoded"
   paths: "image_path"
-  class_mode: "categorical"
+  class_mode: "raw"
   freeze_convolutional_layers: False
   batch_size: 32
   random_seed: 12345
