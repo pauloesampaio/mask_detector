@@ -21,6 +21,7 @@ if len(config["model"]["target_encoder"]) > 1:
 else:
     encoded_dataframe = model_dataframe
     classes = list(config["model"]["target_encoder"].values())[0]
+encoded_dataframe = encoded_dataframe.sample(frac=1)
 
 image_generator = ImageDataGenerator(
     rotation_range=10,
