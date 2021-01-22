@@ -57,6 +57,8 @@ def encode_categories(dataframe, config, one_hot_encode=True):
             dataframe[f"{k}_encoded"] = to_categorical(
                 dataframe[f"{k}_encoded"], num_classes=n_classes
             ).tolist()
+        else:
+            dataframe[f"{k}_encoded"] = dataframe[f"{k}_encoded"].apply(lambda x: [x])
     return dataframe
 
 

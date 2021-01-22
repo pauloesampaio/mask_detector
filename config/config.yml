@@ -7,7 +7,7 @@ model:
   input_shape: [224, 224]
   target_encoder:
     mask: ["without_mask", "with_mask"]
-  target: "mask"
+  target: "mask_encoded"
   paths: "image_path"
   class_mode: "categorical"
   freeze_convolutional_layers: False
