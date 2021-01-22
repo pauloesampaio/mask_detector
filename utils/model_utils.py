@@ -79,9 +79,14 @@ def predict(model, image, config):
     model_input = model_input.reshape([1] + input_shape + [3])
     prediction = model.predict(model_input)
     prediction_dictionary = {}
-
-    for i, encoder in enumerate(config["model"]["target_encoder"].keys()):
+    if len(config["model"]["target_encoder"]) > 1:
+        for i, encoder in enumerate(config["model"]["target_encoder"].keys()):
+            labels = config["model"]["target_encoder"][encoder]
+            probabilities = prediction[i][0]
+            prediction_dictionary[encoder] = dict(zip(labels, probabilities))
+    else:
+        encoder = list(config["model"]["target_encoder"])[0]
         labels = config["model"]["target_encoder"][encoder]
-        probabilities = prediction[i][0]
+        probabilities = prediction[0]
         prediction_dictionary[encoder] = dict(zip(labels, probabilities))
     return prediction_dictionary
