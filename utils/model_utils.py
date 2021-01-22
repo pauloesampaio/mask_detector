@@ -38,7 +38,7 @@ def build_model(config):
     return model
 
 
-def encode_categories(dataframe, config):
+def encode_categories(dataframe, config, one_hot_encode=True):
     """Function to one-hot-encode labels according to encoding map
     defined on the config file
 
@@ -52,9 +52,11 @@ def encode_categories(dataframe, config):
     for k in config["model"]["target_encoder"].keys():
         n_classes = len(config["model"]["target_encoder"][k])
         encoder = dict(zip(config["model"]["target_encoder"][k], range(n_classes)))
-        dataframe[f"{k}_encoded"] = to_categorical(
-            dataframe[f"{k}"].map(encoder), num_classes=n_classes
-        ).tolist()
+        dataframe[f"{k}_encoded"] = dataframe[f"{k}"].map(encoder)
+        if one_hot_encode:
+            dataframe[f"{k}_encoded"] = to_categorical(
+                dataframe[f"{k}_encoded"], num_classes=n_classes
+            ).tolist()
     return dataframe
 
 
