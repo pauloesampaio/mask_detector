@@ -2,7 +2,7 @@ import numpy as np
 from tensorflow.keras.utils import to_categorical
 from tensorflow.keras.layers import Input, Dense
 from tensorflow.keras.models import Model
-from tensorflow.keras.applications.xception import Xception, preprocess_input
+from tensorflow.keras.applications.mobilenet_v3 import MobileNetV3, preprocess_input
 
 
 def build_model(config):
@@ -21,7 +21,12 @@ def build_model(config):
         name="model_input",
     )
     x = preprocess_input(i)
-    core = Xception(input_shape=input_shape, include_top=False, pooling="avg")
+    core = MobileNetV3(
+        input_shape=input_shape,
+        include_top=False,
+        pooling="avg",
+        model_type="small",
+    )
 
     if config["model"]["freeze_convolutional_layers"]:
         print("Freezing convolutional layers")
