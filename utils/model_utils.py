@@ -2,8 +2,7 @@ import numpy as np
 from tensorflow.keras.utils import to_categorical
 from tensorflow.keras.layers import Input, Dense
 from tensorflow.keras.models import Model
-from tensorflow.keras.applications.mobilenet_v3 import preprocess_input
-from tensorflow.compat.v1.keras.applications import MobileNetV3Small
+from tensorflow.keras.applications.mobilenet_v2 import MobileNetV2, preprocess_input
 
 
 def build_model(config):
@@ -22,7 +21,7 @@ def build_model(config):
         name="model_input",
     )
     x = preprocess_input(i)
-    core = MobileNetV3Small(
+    core = MobileNetV2(
         input_shape=input_shape,
         include_top=False,
         pooling="avg",
