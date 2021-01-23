@@ -26,7 +26,6 @@ def build_model(config):
         input_shape=input_shape,
         include_top=False,
         pooling="avg",
-        model_type="small",
     )
 
     if config["model"]["freeze_convolutional_layers"]:
