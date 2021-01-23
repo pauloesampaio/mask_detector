@@ -2,7 +2,8 @@ import numpy as np
 from tensorflow.keras.utils import to_categorical
 from tensorflow.keras.layers import Input, Dense
 from tensorflow.keras.models import Model
-from tensorflow.keras.applications.mobilenet_v3 import MobileNetV3, preprocess_input
+from tensorflow.keras.applications.mobilenet_v3 import preprocess_input
+from tensorflow.compat.v1.keras.applications import MobileNetV3Small
 
 
 def build_model(config):
