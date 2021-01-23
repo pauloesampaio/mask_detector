@@ -22,7 +22,7 @@ def build_model(config):
         name="model_input",
     )
     x = preprocess_input(i)
-    core = MobileNetV3(
+    core = MobileNetV3Small(
         input_shape=input_shape,
         include_top=False,
         pooling="avg",
