@@ -151,3 +151,4 @@ model/
 /logs
 /model
 *.ipynb
+credentials.json
