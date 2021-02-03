@@ -102,3 +102,19 @@ def draw_label(frame, color, label, timestamp):
     cv2.putText(frame, label, (10, 25), cv2.FONT_HERSHEY_PLAIN, 1, color)
     cv2.putText(frame, timestamp, (10, 40), cv2.FONT_HERSHEY_PLAIN, 1, color)
     return True
+
+
+def query_api(url, data):
+    response = requests.post(url, data=json.dumps({"image_string": data})).json()
+    mask_probability = response["predictions"]["mask"]["with_mask"]
+    timestamp = response["timestamp"]
+    return {"mask_probability": mask_probability, "timestamp": timestamp}
+
+
+def send_message(client, number_from, number_to, message):
+    client.messages.create(
+        from_=number_from,
+        to=number_to,
+        body=message,
+    )
+    return True
