@@ -1,6 +1,6 @@
 paths:
   model_dataframe: "./data/full_dataset.csv"
-  model_path: "./model/model.h5"
+  model_path: "./app/model/model.h5"
   training_history_path: "./model/training_history.csv"
 
 model:
@@ -25,3 +25,5 @@ detector:
   view_frames: True
   api_url: http://192.168.15.10:8000/predict/
   message_delta_time_minutes: 30
+  message: "PUT ON A MASK!!"
+  detector_threshold: 0.5

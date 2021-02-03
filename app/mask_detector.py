@@ -39,7 +39,10 @@ while True:
         config["detector"]["api_url"],
         data=json.dumps({"image_string": image_string}),
     ).json()
-    if response["predictions"]["mask"]["with_mask"] > 0.5:
+    if (
+        response["predictions"]["mask"]["with_mask"]
+        > config["detector"]["detector_threshold"]
+    ):
         color = (0, 255, 0)
         label = "with mask"
         probability = response["predictions"]["mask"]["with_mask"]
@@ -54,10 +57,9 @@ while True:
         ):
             message = client.messages.create(
                 to=credentials["to_number"],
-                body="Coloque a máscara!!!",
+                body=config["detector"]["message"],
                 from_=credentials["from_number"],
             )
-            print("OI")
             print("Message sent")
             message_count = message_count + 1
             last_message_time = datetime.now()
