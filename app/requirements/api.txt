@@ -1,4 +1,0 @@
--r common.txt
-tensorflow-cpu==2.4.1
-#uvicorn==0.13.3 # To run locally
-#fastapi==0.63.0 # To run locally
