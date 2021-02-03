@@ -45,7 +45,7 @@ while True:
     )
 
     # send to API
-    response = query_api(config["detector"]["api_url"])
+    response = query_api(config["detector"]["api_url"], image_string)
 
     # If mask probability above threshold ok, else send message
     if response["mask_probability"] > config["detector"]["detector_threshold"]:
