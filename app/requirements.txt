@@ -1,0 +1,9 @@
+pillow==8.1.0
+requests==2.25.1
+numpy==1.19.5
+pyyaml==5.4.1
+orjson==3.4.7
+twilio==6.51.1
+imutils==0.5.4
+opencv-contrib-python>=4.1.*, <=4.5.*
+tensorflow-cpu<=2.4.1
