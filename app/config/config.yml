@@ -18,3 +18,10 @@ model:
   lr_reducer_factor: 0.1
   lr_reducer_patience: 5
   min_lr: .000001
+
+detector:
+  running_on_pi: False
+  resolution: (320, 240)
+  view_frames: True
+  api_url: http://192.168.15.10:8000/predict/
+  message_delta_time_minutes: 30

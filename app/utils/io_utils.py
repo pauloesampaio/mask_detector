@@ -2,8 +2,10 @@ import json
 import yaml
 import os
 import requests
+import base64
 from io import BytesIO
 from PIL import Image
+import cv2
 
 
 def txt_loader(path, skip_lines=0):
@@ -81,3 +83,22 @@ def download_image(image_url):
     im_bytes = BytesIO(resp.content)
     image = Image.open(im_bytes)
     return image
+
+
+def load_string_to_image(image_string):
+    image_bytes = base64.urlsafe_b64decode(bytearray(image_string, "utf-8"))
+    return Image.open(BytesIO(image_bytes))
+
+
+def save_image_to_string(image):
+    buffered = BytesIO()
+    image.save(buffered, format="PNG")
+    img_str = base64.urlsafe_b64encode(buffered.getvalue())
+    return img_str.decode("utf-8")
+
+
+def draw_label(frame, color, label, timestamp):
+    cv2.rectangle(frame, (0, 0), (frame.shape[1] - 1, frame.shape[0] - 1), color)
+    cv2.putText(frame, label, (10, 25), cv2.FONT_HERSHEY_PLAIN, 1, color)
+    cv2.putText(frame, timestamp, (10, 40), cv2.FONT_HERSHEY_PLAIN, 1, color)
+    return True
