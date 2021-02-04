@@ -6,3 +6,6 @@ twilio==6.51.1
 imutils==0.5.4
 opencv-contrib-python>=4.1.*, <=4.5.*
 tensorflow-cpu<=2.4.1
+# orjson==3.4.7 # To run locally without docker
+# uvicorn==0.13.3 # To run locally without docker
+# fastapi==0.63.0 # To run locally without docker
