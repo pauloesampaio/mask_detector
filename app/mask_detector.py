@@ -46,16 +46,20 @@ while True:
 
     # send to API
     response = query_api(config["detector"]["api_url"], image_string)
-
+    mask_probability = response["mask_probability"]
     # If mask probability above threshold ok, else send message
-    if response["mask_probability"] > config["detector"]["detector_threshold"]:
+    if not mask_probability:
+        color = (255, 255, 255)
+        label = "No face"
+        probability = 1
+    elif mask_probability > config["detector"]["detector_threshold"]:
         color = (0, 255, 0)
         label = "with mask"
-        probability = response["mask_probability"]
+        probability = mask_probability
     else:
         color = (0, 0, 255)
         label = "without mask"
-        probability = 1 - response["mask_probability"]
+        probability = 1 - mask_probability
         message_delta_time = (datetime.now() - last_message_time).seconds / 60
 
         # If last message was more than delta minutes ago, send message

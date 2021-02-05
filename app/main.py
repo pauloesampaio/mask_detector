@@ -2,13 +2,16 @@ from pydantic import BaseModel
 from fastapi import FastAPI, HTTPException
 import orjson
 from utils.io_utils import yaml_loader, load_string_to_image
-from utils.model_utils import predict
+from utils.model_utils import predict, load_face_detection_model, find_faces
 from tensorflow.keras.models import load_model
 import datetime
 
 try:
     config = yaml_loader("./config/config.yml")
-    model = load_model(config["paths"]["model_path"])
+    mask_detection_model = load_model(config["paths"]["mask_detection_model_path"])
+    face_detection_model = load_face_detection_model(
+        **config["paths"]["face_detection_model_path"]
+    )
 except IOError as e:
     errno, strerror = e.args
     print("Error loading config or model({0}): {1}".format(errno, strerror))
@@ -30,10 +33,14 @@ def check_api():
 async def get_prediction(input_image: InputImage):
     try:
         image = load_string_to_image(input_image.image_string)
-        predictions = predict(model, image, config)
-        predictions = orjson.loads(
-            orjson.dumps(predictions, option=orjson.OPT_SERIALIZE_NUMPY)
-        )
+        faces = find_faces(face_detection_model, image)
+        if len(faces) > 0:
+            predictions = predict(mask_detection_model, image, config)
+            predictions = orjson.loads(
+                orjson.dumps(predictions, option=orjson.OPT_SERIALIZE_NUMPY)
+            )
+        else:
+            predictions = None
     except IOError:
         predictions = None
         raise HTTPException(status_code=300, detail="Download error")

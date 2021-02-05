@@ -106,7 +106,9 @@ def draw_label(frame, color, label, timestamp):
 
 def query_api(url, data):
     response = requests.post(url, data=json.dumps({"image_string": data})).json()
-    mask_probability = response["predictions"]["mask"]["with_mask"]
+    mask_probability = None
+    if response["predictions"]:
+        mask_probability = response["predictions"]["mask"]["with_mask"]
     timestamp = response["timestamp"]
     return {"mask_probability": mask_probability, "timestamp": timestamp}
 

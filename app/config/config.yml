@@ -1,6 +1,9 @@
 paths:
   model_dataframe: "./data/full_dataset.csv"
-  model_path: "./model/model.h5"
+  mask_detection_model_path: "./model/model.h5"
+  face_detection_model_path:
+    model_file: "./model/opencv_face_detector_uint8.pb"
+    model_config: "./model/opencv_face_detector.pbtxt"
   training_history_path: "./model/training_history.csv"
 
 model:
@@ -20,6 +23,11 @@ model:
   min_lr: .000001
 
 detector:
+  face_detection_model_url:
+    [
+      "https://raw.githubusercontent.com/opencv/opencv_3rdparty/dnn_samples_face_detector_20180220_uint8/opencv_face_detector_uint8.pb",
+      "https://raw.githubusercontent.com/opencv/opencv/master/samples/dnn/face_detector/opencv_face_detector.pbtxt",
+    ]
   running_on_pi: False
   resolution: [320, 240]
   view_frames: True

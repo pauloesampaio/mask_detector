@@ -1,3 +1,6 @@
+import requests
+import os
+import cv2
 import numpy as np
 from tensorflow.keras.utils import to_categorical
 from tensorflow.keras.layers import Input, Dense
@@ -94,3 +97,42 @@ def predict(model, image, config):
         probabilities = prediction[0]
         prediction_dictionary[encoder] = dict(zip(labels, probabilities))
     return prediction_dictionary
+
+
+def download_face_detection_model(models_path, models_url):
+    for model_url in models_url:
+        model_path = os.path.join(models_path, model_url.split("/")[-1])
+        r = requests.get(
+            model_url,
+            allow_redirects=True,
+        )
+        with open(model_path, "wb") as f:
+            f.write(r.content)
+    return print("Models downloaded")
+
+
+def load_face_detection_model(model_file, model_config):
+    model = cv2.dnn.readNetFromTensorflow(model_file, model_config)
+    return model
+
+
+def find_faces(model, image):
+    image_resize = np.array(image.resize((300, 300)))
+    image = np.array(image)
+    blob = cv2.dnn.blobFromImage(
+        image=image_resize, mean=(104.0, 177.0, 123.0), swapRB=False
+    )
+    model.setInput(blob)
+    detections = model.forward()
+    conf_threshold = 0.5
+    h, w = image.shape[:2]
+    bboxes = []
+    for i in range(detections.shape[2]):
+        confidence = detections[0, 0, i, 2]
+        if confidence > conf_threshold:
+            x1 = int(detections[0, 0, i, 3] * w)
+            y1 = int(detections[0, 0, i, 4] * h)
+            x2 = int(detections[0, 0, i, 5] * w)
+            y2 = int(detections[0, 0, i, 6] * h)
+            bboxes.append((x1, y1, x2, y2))
+    return bboxes
