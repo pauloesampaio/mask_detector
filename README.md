@@ -75,7 +75,7 @@ while True:
     # Get video frame
     frame = vs.read()
     
-    # YOU CODE TO DEAL WITH THE FRAMES HERE
+    # YOUR CODE TO DEAL WITH THE FRAMES HERE
 
     cv2.imshow("frame", frame)
     if cv2.waitKey(1) & 0xFF == ord("q"):
